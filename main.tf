@@ -20,11 +20,19 @@ data "aws_ami" "encrypted_ami" {
   owners = ["amazon"] # Replace with the appropriate AMI owner if necessary.
 }
 
-# Create an EC2 instance using the encrypted AMI for the root block device.
+# Create an EC2 instance with IMDSv2 token and encrypted root block device
 resource "aws_instance" "example" {
   ami           = data.aws_ami.encrypted_ami.id
   instance_type = "t2.micro" # Replace with your desired instance type
   key_name      = "my-keypair" # Replace with the name of your key pair
+
+  metadata_options {
+    http_tokens = "required"
+  }
+
+  root_block_device {
+    encrypted = true
+  }
 
   tags = {
     Name = "MyEC2Instance"
