@@ -12,3 +12,5 @@ variable "ami" {
   description = "AMI ID for the EC2 instance"
   default     = "ami-0f5ee92e2d63afc18" # Replace with your desired AMI ID
 }
+variable "key_name" {
+  default     =  "terraform"
