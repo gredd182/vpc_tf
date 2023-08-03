@@ -24,7 +24,7 @@ data "aws_ami" "encrypted_ami" {
 resource "aws_instance" "example" {
   ami           = data.aws_ami.encrypted_ami.id
   instance_type = "t2.micro" # Replace with your desired instance type
-  key_name      = "my-keypair" # Replace with the name of your key pair
+  key_name      = "terraform" # Replace with the name of your key pair
 
   metadata_options {
     http_tokens = "required"
