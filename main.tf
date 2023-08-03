@@ -1,6 +1,6 @@
 # Declare the AWS provider and region
 provider "aws" {
-  region = "us-east-1" # Replace with your desired region
+  region = "ap-south-1" # Replace with your desired region
 }
 
 # Create an EC2 instance
