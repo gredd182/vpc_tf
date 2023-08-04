@@ -39,12 +39,11 @@ resource "aws_security_group" "example" {
 
   # Egress rules (example: allow outbound traffic to S3 only)
   egress {
-    description = "Allow outbound traffic to Amazon S3"
     from_port   = 80
     to_port     = 443
     protocol    = "-1"
     # Replace with the specific IP ranges for Amazon S3 in your region
-    cidr_blocks = [""1.2.3.4/32""]
+    cidr_blocks = [""98.21.3.4/32""]
   }
 }
 
