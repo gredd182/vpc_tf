@@ -44,7 +44,7 @@ resource "aws_security_group" "example" {
     to_port     = 443
     protocol    = "-1"
     # Replace with the specific IP ranges for Amazon S3 in your region
-    cidr_blocks = ["52.216.0.0/15", "52.216.0.0/15"]
+    cidr_blocks = [""1.2.3.4/32""]
   }
 }
 
