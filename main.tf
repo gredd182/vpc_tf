@@ -28,9 +28,9 @@ resource "aws_security_group" "example" {
 
   # Ingress rules
   ingress {
-    description = "Allow HTTP traffic from load balancer"
-    from_port   = 22
-    to_port     = 22
+    
+    from_port   = 0
+    to_port     = 0
     protocol    = "tcp"
     cidr_blocks = ["96.127.0.0/32"]  # Replace with your office IP range
   }
