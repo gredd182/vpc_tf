@@ -20,11 +20,38 @@ data "aws_ami" "encrypted_ami" {
   owners = ["amazon"] # Replace with the appropriate AMI owner if necessary.
 }
 
+# Create a security group with necessary ingress rules
+resource "aws_security_group" "example" {
+  name_prefix = "example-security-group-"
+
+  # Ingress rules
+  ingress {
+    description = "Allow SSH from office IP"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["YOUR_OFFICE_IP/32"]  # Replace with your office IP range
+  }
+
+  # Add more ingress rules as needed
+
+  # Egress rules (example: allow all outbound traffic)
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 # Create an EC2 instance with IMDSv2 token and encrypted root block device
 resource "aws_instance" "example" {
   ami           = data.aws_ami.encrypted_ami.id
   instance_type = "t2.micro" # Replace with your desired instance type
   key_name      = "terraform" # Replace with the name of your key pair
+
+  # Attach the security group to the instance
+  vpc_security_group_ids = [aws_security_group.example.id]
 
   metadata_options {
     http_tokens = "required"
@@ -37,6 +64,17 @@ resource "aws_instance" "example" {
   tags = {
     Name = "MyEC2Instance"
   }
+}
+
+# Enable VPC Flow Logs for VPC
+resource "aws_flow_log" "vpc_flow_logs" {
+  name           = "vpc-flow-logs"
+  traffic_type   = "ALL"
+  log_destination = "arn:aws:logs:ap-south-1:123456789012:log-group:/aws/vpc/flow-logs"
+
+  # Replace "ap-south-1" and "123456789012" with your region and AWS account ID
+  # The log destination must point to a CloudWatch Logs log group for storing the flow logs
+  vpc_id         = aws_instance.example.vpc_security_group_ids[0]
 }
 
 # Output the public IP address of the EC2 instance
