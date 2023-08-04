@@ -30,7 +30,7 @@ resource "aws_security_group" "example" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["YOUR_OFFICE_IP/32"]  # Replace with your office IP range
+    cidr_blocks = ["96.127.0.0/32"]  # Replace with your office IP range
   }
 
   # Add more ingress rules as needed
@@ -70,7 +70,7 @@ resource "aws_instance" "example" {
 resource "aws_flow_log" "vpc_flow_logs" {
   name           = "vpc-flow-logs"
   traffic_type   = "ALL"
-  log_destination = "arn:aws:logs:ap-south-1:123456789012:log-group:/aws/vpc/flow-logs"
+  log_destination = "arn:aws:logs:ap-south-1:875667920160:log-group:/aws/vpc/flow-logs"
 
   # Replace "ap-south-1" and "123456789012" with your region and AWS account ID
   # The log destination must point to a CloudWatch Logs log group for storing the flow logs
