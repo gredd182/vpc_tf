@@ -23,10 +23,12 @@ data "aws_ami" "encrypted_ami" {
 # Create a security group with necessary ingress rules
 resource "aws_security_group" "example" {
   name_prefix = "example-security-group-"
+# Add custom description for the security group
+  description = "Security group for MyEC2Instance"
 
   # Ingress rules
   ingress {
-    description = "Allow SSH from office IP"
+    description = "Allow HTTP traffic from load balancer"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -37,9 +39,10 @@ resource "aws_security_group" "example" {
 
   # Egress rules (example: allow all outbound traffic)
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    description = "Allow outbound traffic to s3"
+    from_port   = 80
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
